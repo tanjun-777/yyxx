@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英语口语练习打卡与评测智能体 - 功能演示</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #4a6ee0 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+        
+        .feature-section {
+            padding: 60px 40px;
+        }
+        
+        .feature-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            height: 100%;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: #4a6ee0;
+            box-shadow: 0 10px 25px rgba(74, 110, 224, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: #4a6ee0;
+            margin-bottom: 20px;
+        }
+        
+        .demo-section {
+            background: #f8f9fa;
+            padding: 60px 40px;
+        }
+        
+        .demo-image {
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            height: auto;
+        }
+        
+        .tech-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #e3f2fd;
+            color: #1976d2;
+            border-radius: 20px;
+            margin: 5px;
+            font-weight: 500;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+        
+        .btn-demo {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-demo:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .stats-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #4a6ee0;
+        }
+        
+        .workflow-step {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .workflow-icon {
+            width: 80px;
+            height: 80px;
+            background: #4a6ee0;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1 class="display-4 mb-4">
+                <i class="bi bi-mortarboard-fill me-3"></i>
+                英语口语练习打卡与评测智能体
+            </h1>
+            <p class="lead mb-4">
+                基于腾讯云AI技术的智能口语学习平台，助力学生英语口语能力提升
+            </p>
+            <div class="row justify-content-center">
+                <div class="col-md-3">
+                    <div class="stats-number">7+</div>
+                    <p class="mb-0">核心功能</p>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-number">24/7</div>
+                    <p class="mb-0">全天候练习</p>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-number">AI</div>
+                    <p class="mb-0">智能评测</p>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-number">实时</div>
+                    <p class="mb-0">即时反馈</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="feature-section">
+            <h2 class="text-center mb-5">
+                <i class="bi bi-stars me-2"></i>核心功能
+            </h2>
+            
+            <div class="row g-4">
+                <!-- 学生端功能 -->
+                <div class="col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-mortarboard"></i>
+                        </div>
+                        <h4>学生端功能</h4>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <strong>智能练习：</strong>根据教师要求进行口语录音练习
+                            </li>
+                            <li class="mb-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <strong>AI评测：</strong>腾讯云口语评测，多维度精准评分
+                            </li>
+                            <li class="mb-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <strong>实时反馈：</strong>即时查看得分、准确度、流利度
+                            </li>
+                            <li class="mb-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <strong>重复练习：</strong>支持多次练习同一内容
+                            </li>
+                            <li class="mb-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <strong>学习记录：</strong>完整的练习历史和成绩统计
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 教师端功能 -->
+                <div class="col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-person-badge"></i>
+                        </div>
+                        <h4>教师端功能</h4>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <strong>用户管理：</strong>查看和管理学生账号信息
+                            </li>
+                            <li class="mb-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <strong>练习发布：</strong>创建和管理口语练习任务
+                            </li>
+                            <li class="mb-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <strong>时间控制：</strong>设定练习的开始和结束时间
+                            </li>
+                            <li class="mb-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <strong>数据统计：</strong>班级整体学习统计分析
+                            </li>
+                            <li class="mb-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <strong>反馈管理：</strong>查看AI结果，添加个人建议
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Workflow Section -->
+        <section class="demo-section">
+            <h2 class="text-center mb-5">
+                <i class="bi bi-diagram-3 me-2"></i>使用流程
+            </h2>
+            
+            <div class="row">
+                <div class="col-md-3 workflow-step">
+                    <div class="workflow-icon">
+                        <i class="bi bi-person-plus"></i>
+                    </div>
+                    <h5>1. 注册登录</h5>
+                    <p class="text-muted">学生或教师选择身份进行登录</p>
+                </div>
+                
+                <div class="col-md-3 workflow-step">
+                    <div class="workflow-icon">
+                        <i class="bi bi-book"></i>
+                    </div>
+                    <h5>2. 发布练习</h5>
+                    <p class="text-muted">教师创建口语练习任务</p>
+                </div>
+                
+                <div class="col-md-3 workflow-step">
+                    <div class="workflow-icon">
+                        <i class="bi bi-mic"></i>
+                    </div>
+                    <h5>3. 录音练习</h5>
+                    <p class="text-muted">学生进行口语录音练习</p>
+                </div>
+                
+                <div class="col-md-3 workflow-step">
+                    <div class="workflow-icon">
+                        <i class="bi bi-award"></i>
+                    </div>
+                    <h5>4. 查看反馈</h5>
+                    <p class="text-muted">获取AI评测和教师反馈</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tech Stack Section -->
+        <section class="feature-section">
+            <h2 class="text-center mb-5">
+                <i class="bi bi-stack me-2"></i>技术架构
+            </h2>
+            
+            <div class="text-center mb-4">
+                <h5 class="text-muted mb-3">前端技术栈</h5>
+                <div>
+                    <span class="tech-badge">HTML5</span>
+                    <span class="tech-badge">CSS3</span>
+                    <span class="tech-badge">JavaScript ES6+</span>
+                    <span class="tech-badge">Bootstrap 5</span>
+                    <span class="tech-badge">Web Audio API</span>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <h5 class="text-muted mb-3">后端技术栈</h5>
+                <div>
+                    <span class="tech-badge">Node.js</span>
+                    <span class="tech-badge">Express.js</span>
+                    <span class="tech-badge">SQLite</span>
+                    <span class="tech-badge">JWT认证</span>
+                    <span class="tech-badge">腾讯云API</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Demo Features -->
+        <section class="demo-section">
+            <h2 class="text-center mb-5">
+                <i class="bi bi-window me-2"></i>界面展示
+            </h2>
+            
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>登录界面
+                            </h5>
+                            <p class="card-text">支持学生/教师角色切换的现代化登录界面</p>
+                            <ul class="list-unstyled small">
+                                <li><i class="bi bi-check text-success me-2"></i>角色选择</li>
+                                <li><i class="bi bi-check text-success me-2"></i>密码加密</li>
+                                <li><i class="bi bi-check text-success me-2"></i>JWT认证</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="bi bi-mic-fill me-2"></i>录音界面
+                            </h5>
+                            <p class="card-text">直观的录音控制和实时状态显示</p>
+                            <ul class="list-unstyled small">
+                                <li><i class="bi bi-check text-success me-2"></i>实时录音</li>
+                                <li><i class="bi bi-check text-success me-2"></i>时长显示</li>
+                                <li><i class="bi bi-check text-success me-2"></i>音频处理</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="bi bi-graph-up me-2"></i>评测结果
+                            </h5>
+                            <p class="card-text">详细的评测结果和多维度分析</p>
+                            <ul class="list-unstyled small">
+                                <li><i class="bi bi-check text-success me-2"></i>得分展示</li>
+                                <li><i class="bi bi-check text-success me-2"></i>准确度分析</li>
+                                <li><i class="bi bi-check text-success me-2"></i>改进建议</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="bi bi-bar-chart me-2"></i>数据统计
+                            </h5>
+                            <p class="card-text">全面的学习数据统计和分析</p>
+                            <ul class="list-unstyled small">
+                                <li><i class="bi bi-check text-success me-2"></i>个人统计</li>
+                                <li><i class="bi bi-check text-success me-2"></i>班级分析</li>
+                                <li><i class="bi bi-check text-success me-2"></i>趋势图表</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2 class="mb-4">开始使用智能口语学习平台</h2>
+            <p class="lead mb-4">
+                准备好提升英语口语能力了吗？立即开始您的智能学习之旅！
+            </p>
+            
+            <div class="row justify-content-center">
+                <div class="col-md-8 text-center">
+                    <div class="card bg-white text-dark p-4 mb-4">
+                        <h5 class="mb-3">快速开始</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>管理员账号：</strong><br>
+                                用户名：admin<br>
+                                密码：admin123
+                            </div>
+                            <div class="col-md-6">
+                                <strong>学生账号：</strong><br>
+                                用户名：student01<br>
+                                密码：student123
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-light btn-demo" onclick="window.open('public/index.html', '_blank')">
+                        <i class="bi bi-play-circle me-2"></i>在线演示
+                    </button>
+                    
+                    <button class="btn btn-outline-light btn-demo" onclick="window.open('INSTALLATION.md', '_blank')">
+                        <i class="bi bi-download me-2"></i>本地部署
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-dark text-white text-center py-4">
+            <p class="mb-0">
+                <i class="bi bi-code-slash me-2"></i>
+                英语口语练习打卡与评测智能体 v1.0.0
+            </p>
+            <small class="text-muted">
+                基于腾讯云AI技术 | 支持本地部署 | 开源项目
+            </small>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // 添加页面交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 统计数字动画效果
+            const statsNumbers = document.querySelectorAll('.stats-number');
+            
+            const animateNumber = (element, target, suffix = '') => {
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    element.textContent = Math.floor(current) + suffix;
+                }, 30);
+            };
+            
+            // 当统计数字进入视口时开始动画
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const element = entry.target;
+                        const text = element.textContent;
+                        const number = parseInt(text) || 0;
+                        const suffix = text.replace(number.toString(), '');
+                        
+                        if (number > 0) {
+                            animateNumber(element, number, suffix);
+                            observer.unobserve(element);
+                        }
+                    }
+                });
+            });
+            
+            statsNumbers.forEach(stat => observer.observe(stat));
+            
+            // 平滑滚动
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

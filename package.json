@@ -1,0 +1,20 @@
+{
+  "name": "english-speaking-practice-vercel",
+  "version": "1.0.0",
+  "description": "英语口语练习系统 - Vercel部署版本",
+  "main": "api/index.js",
+  "scripts": {
+    "start": "node api/index.js",
+    "init-db": "node -e \"require('./database-supabase').initDatabase().then(() => console.log('数据库初始化完成')).catch(console.error)\""
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.11.3"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

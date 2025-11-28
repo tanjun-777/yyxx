@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英语口语练习系统 - 访问指南</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .guide-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header-section {
+            background: linear-gradient(135deg, #4a6ee0 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        .content-section {
+            padding: 40px;
+        }
+        .step-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            border-left: 5px solid #4a6ee0;
+        }
+        .step-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: #4a6ee0;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        .preview-section {
+            background: #e7f3ff;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        .screenshot {
+            background: #f0f0f0;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .btn-access {
+            background: #28a745;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            color: white;
+            font-size: 1.1rem;
+            margin: 10px;
+            transition: all 0.3s;
+        }
+        .btn-access:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+        .account-info {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="guide-container">
+        <!-- Header -->
+        <div class="header-section">
+            <h1 class="display-5 mb-3">
+                <i class="bi bi-globe me-3"></i>英语口语练习打卡与评测智能体
+            </h1>
+            <p class="lead">系统访问与使用指南</p>
+        </div>
+
+        <!-- Content -->
+        <div class="content-section">
+            <h2 class="text-center mb-4">🚀 如何访问系统</h2>
+
+            <!-- 方法一：在线演示 -->
+            <div class="step-card">
+                <h3><span class="step-number">1</span>查看功能演示</h3>
+                <p>如果你还没有安装Node.js，可以先查看系统的功能演示页面：</p>
+                <div class="screenshot">
+                    <h5><i class="bi bi-window-desktop me-2"></i>功能演示页面</h5>
+                    <p class="text-muted">包含系统所有功能的静态展示</p>
+                    <button class="btn btn-access" onclick="window.open('demo.html', '_blank')">
+                        <i class="bi bi-play-circle me-2"></i>打开演示页面
+                    </button>
+                </div>
+            </div>
+
+            <!-- 方法二：安装Node.js -->
+            <div class="step-card">
+                <h3><span class="step-number">2</span>安装运行环境</h3>
+                <p>要运行完整的系统，需要先安装Node.js：</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5><i class="bi bi-download me-2"></i>下载Node.js</h5>
+                        <p>访问官网下载最新版本：</p>
+                        <a href="https://nodejs.org" target="_blank" class="btn btn-primary">
+                            <i class="bi bi-link-45deg me-2"></i>nodejs.org
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <h5><i class="bi bi-gear me-2"></i>安装步骤</h5>
+                        <ol>
+                            <li>下载Windows版安装包</li>
+                            <li>双击运行安装程序</li>
+                            <li>按向导完成安装</li>
+                            <li>重启命令提示符</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 方法三：启动系统 -->
+            <div class="step-card">
+                <h3><span class="step-number">3</span>启动系统服务</h3>
+                <p>安装完Node.js后，按以下步骤启动系统：</p>
+                <div class="screenshot">
+                    <h5><i class="bi bi-terminal me-2"></i>命令行操作</h5>
+                    <div class="text-start">
+                        <pre class="bg-dark text-light p-3 rounded"><code># 进入项目目录
+cd "c:/Users/m't'j/CodeBuddy/20251125172303"
+
+# 安装依赖包
+npm install
+
+# 初始化数据库
+npm run setup
+
+# 启动服务器
+npm start</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 方法四：访问系统 -->
+            <div class="step-card">
+                <h3><span class="step-number">4</span>访问应用</h3>
+                <p>启动服务器后，在浏览器中访问：</p>
+                <div class="screenshot">
+                    <h5><i class="bi bi-link-45deg me-2"></i>访问地址</h5>
+                    <div class="h3 text-primary">http://localhost:3000</div>
+                    <button class="btn btn-success" onclick="window.open('http://localhost:3000', '_blank')">
+                        <i class="bi bi-box-arrow-up-right me-2"></i>打开系统
+                    </button>
+                </div>
+            </div>
+
+            <!-- 默认账号信息 -->
+            <div class="account-info">
+                <h4><i class="bi bi-key me-2"></i>默认登录账号</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>👨‍🏫 教师账号</h6>
+                        <ul>
+                            <li><strong>用户名：</strong> admin</li>
+                            <li><strong>密码：</strong> admin123</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>👨‍🎓 学生账号</h6>
+                        <ul>
+                            <li><strong>用户名：</strong> student01</li>
+                            <li><strong>密码：</strong> student123</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 系统功能预览 -->
+            <div class="preview-section">
+                <h3><i class="bi bi-stars me-2"></i>系统功能预览</h3>
+                <div class="row text-center">
+                    <div class="col-md-3">
+                        <div class="h1">🎤</div>
+                        <h5>口语录音</h5>
+                        <p class="small">实时录制英语口语</p>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="h1">🤖</div>
+                        <h5>AI评测</h5>
+                        <p class="small">腾讯云智能评分</p>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="h1">📊</div>
+                        <h5>数据统计</h5>
+                        <p class="small">学习数据分析</p>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="h1">💬</div>
+                        <h5>教师反馈</h5>
+                        <p class="small">个性化指导</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 常见问题 -->
+            <div class="step-card">
+                <h3><i class="bi bi-question-circle me-2"></i>常见问题</h3>
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                Node.js安装后仍然提示"无法识别npm"？
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                重新启动命令提示符（关闭后重新打开），然后运行：<code>node --version</code> 和 <code>npm --version</code> 验证安装。
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                端口3000被占用怎么办？
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                可以使用其他端口启动：<code>PORT=3001 npm start</code>，然后访问 http://localhost:3001
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                麦克风无法使用？
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                确保浏览器已获得麦克风权限，建议使用Chrome或Firefox现代浏览器。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center py-4 bg-light">
+            <p class="mb-0">
+                <i class="bi bi-code-slash me-2"></i>
+                英语口语练习打卡与评测智能体 v1.0.0
+            </p>
+            <small class="text-muted">技术支持：基于Node.js + 腾讯云AI</small>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
