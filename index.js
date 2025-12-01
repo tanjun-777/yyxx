@@ -1,14 +1,4 @@
-const { Pool } = require('pg');
-
-// Supabase 数据库连接
-const pool = new Pool({
-  connectionString: process.env.SUPABASE_DATABASE_URL || process.env.POSTGRES_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
-});
-
-// Vercel Serverless Function handler
+// Vercel Serverless Function handler - 最简版本
 module.exports = async (req, res) => {
   // 处理 CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -28,26 +18,20 @@ module.exports = async (req, res) => {
 
     // 健康检查
     if (path === '/api/health') {
-      try {
-        await pool.query('SELECT 1');
-        res.json({ 
-          status: 'ok', 
-          timestamp: new Date().toISOString(),
-          database: 'connected',
-          message: '数据库连接正常'
-        });
-      } catch (dbError) {
-        console.error('数据库连接失败:', dbError);
-        res.status(500).json({ 
-          status: 'error', 
-          database: 'disconnected',
-          error: dbError.message
-        });
-      }
+      res.json({ 
+        status: 'ok', 
+        timestamp: new Date().toISOString(),
+        message: 'Serverless Function 正常运行',
+        database: 'test_mode',
+        env_vars: {
+          SUPABASE_DATABASE_URL: process.env.SUPABASE_DATABASE_URL ? 'configured' : 'missing',
+          JWT_SECRET: process.env.JWT_SECRET ? 'configured' : 'missing'
+        }
+      });
       return;
     }
 
-    // 简化登录（使用明文密码测试）
+    // 测试登录（模拟数据）
     if (path === '/api/login' && req.method === 'POST') {
       const { username, password } = req.body;
       
@@ -55,66 +39,54 @@ module.exports = async (req, res) => {
         return res.status(400).json({ error: '用户名和密码不能为空' });
       }
 
-      try {
-        // 直接查询数据库
-        const query = 'SELECT * FROM users WHERE username = $1 AND password = $2';
-        const result = await pool.query(query, [username, password]);
-        
-        if (result.rows.length === 0) {
-          return res.status(401).json({ error: '用户名或密码错误' });
-        }
+      // 模拟用户数据
+      const users = [
+        { id: 1, username: 'teacher1', password: '123456', role: 'teacher', real_name: '教师一号' },
+        { id: 2, username: 'student1', password: '123456', role: 'student', real_name: '学生一号' },
+        { id: 3, username: 'admin', password: 'admin123', role: 'teacher', real_name: '管理员' }
+      ];
 
-        const user = result.rows[0];
-
-        // 简单的 token 生成（生产环境应使用 JWT）
-        const token = `token_${user.id}_${Date.now()}`;
-
-        res.json({
-          message: '登录成功',
-          token,
-          user: {
-            id: user.id,
-            username: user.username,
-            role: user.role,
-            real_name: user.real_name
-          }
-        });
-        return;
-      } catch (dbError) {
-        console.error('登录数据库错误:', dbError);
-        res.status(500).json({ 
-          error: '登录失败',
-          database_error: dbError.message
-        });
-        return;
+      const user = users.find(u => u.username === username && u.password === password);
+      
+      if (!user) {
+        return res.status(401).json({ error: '用户名或密码错误' });
       }
+
+      // 简单的 token 生成
+      const token = `token_${user.id}_${Date.now()}`;
+
+      res.json({
+        message: '登录成功',
+        token,
+        user: {
+          id: user.id,
+          username: user.username,
+          role: user.role,
+          real_name: user.real_name
+        },
+        test_mode: true
+      });
+      return;
     }
 
-    // 测试数据库连接
-    if (path === '/api/test-db') {
-      try {
-        const result = await pool.query('SELECT COUNT(*) FROM users');
-        res.json({
-          status: 'ok',
-          user_count: parseInt(result.rows[0].count),
-          tables: 'users 表可访问'
-        });
-        return;
-      } catch (dbError) {
-        console.error('测试数据库失败:', dbError);
-        res.status(500).json({
-          error: '数据库测试失败',
-          message: dbError.message
-        });
-        return;
-      }
+    // 测试环境变量
+    if (path === '/api/test-env') {
+      res.json({
+        env_vars: {
+          SUPABASE_DATABASE_URL: process.env.SUPABASE_DATABASE_URL ? 'configured' : 'missing',
+          JWT_SECRET: process.env.JWT_SECRET ? 'configured' : 'missing',
+          NODE_ENV: process.env.NODE_ENV || 'development'
+        },
+        message: '环境变量检查完成'
+      });
+      return;
     }
 
     // 其他路由
     res.status(404).json({ 
       error: 'API endpoint not found',
-      available_endpoints: ['/api/health', '/api/login', '/api/test-db'],
-      database_url: process.env.SUPABASE_DATABASE_URL ? 'configured' : 'missing'
+      available_endpoints: ['/api/health', '/api/login', '/api/test-env'],
+      test_mode: 'active'
     });
     
   } catch (error) {
@@ -122,7 +94,7 @@ module.exports = async (req, res) => {
     res.status(500).json({ 
       error: 'Internal server error',
       message: error.message,
-      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      timestamp: new Date().toISOString()
     });
   }
 };
