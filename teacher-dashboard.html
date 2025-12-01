@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教师工作台 - 英语口语智能评测系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #13B497 0%, #00D9FF 100%);
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --success-color: #13B497;
+            --warning-color: #ffc107;
+            --danger-color: #f5576c;
+            --info-color: #00D9FF;
+            --light-color: #f8f9ff;
+            --dark-color: #2d3748;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --sidebar-width: 250px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Microsoft YaHei', sans-serif;
+            background: #f5f7fa;
+            color: var(--dark-color);
+        }
+
+        /* 顶部导航栏 */
+        .top-navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 70px;
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            color: var(--primary-color) !important;
+            font-size: 1.25rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* 侧边栏 */
+        .sidebar {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+            overflow-y: auto;
+            z-index: 999;
+        }
+
+        .nav-menu {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            margin: 0.25rem 0;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.875rem 1.5rem;
+            color: #64748b;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: #f1f5f9;
+            color: var(--primary-color);
+        }
+
+        .nav-link.active {
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+        }
+
+        .nav-link i {
+            margin-right: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        /* 主内容区域 */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            margin-top: 70px;
+            padding: 2rem;
+            min-height: calc(100vh - 70px);
+        }
+
+        .content-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: #64748b;
+            font-size: 1rem;
+        }
+
+        /* 卡片样式 */
+        .content-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .card-header-custom {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin: 0;
+        }
+
+        /* 统计卡片 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .stats-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .stats-icon.students { background: var(--primary-gradient); }
+        .stats-icon.tasks { background: var(--secondary-gradient); }
+        .stats-icon.pending { background: var(--warning-color); }
+        .stats-icon.completed { background: var(--success-gradient); }
+
+        .stats-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .stats-label {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        /* 按钮样式 */
+        .btn-primary-custom {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            padding: 0.625rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-outline-custom {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.625rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-custom:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* 表格样式 */
+        .table-custom {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .table-custom th {
+            background: #f8fafc;
+            font-weight: 600;
+            color: var(--dark-color);
+            border: none;
+            padding: 1rem;
+        }
+
+        .table-custom td {
+            padding: 1rem;
+            vertical-align: middle;
+            border-color: #e2e8f0;
+        }
+
+        .table-custom tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        /* 状态标签 */
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-badge.pending {
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--warning-color);
+        }
+
+        .status-badge.in-progress {
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--primary-color);
+        }
+
+        .status-badge.completed {
+            background: rgba(19, 180, 151, 0.1);
+            color: var(--success-color);
+        }
+
+        /* 操作按钮 */
+        .action-btn {
+            padding: 0.375rem 0.75rem;
+            border-radius: 6px;
+            border: none;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0 0.25rem;
+        }
+
+        .action-btn.edit {
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--primary-color);
+        }
+
+        .action-btn.edit:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .action-btn.delete {
+            background: rgba(245, 87, 108, 0.1);
+            color: var(--danger-color);
+        }
+
+        .action-btn.delete:hover {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .action-btn.view {
+            background: rgba(19, 180, 151, 0.1);
+            color: var(--success-color);
+        }
+
+        .action-btn.view:hover {
+            background: var(--success-color);
+            color: white;
+        }
+
+        /* 内容区域切换 */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <nav class="top-navbar">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="navbar-brand">
+                <i class="bi bi-mortarboard-fill me-2"></i>
+                教师工作台
+            </div>
+            <div class="user-info">
+                <span class="text-muted">欢迎，<strong id="teacherName">教师</strong></span>
+                <div class="user-avatar" id="userAvatar">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+                <button class="btn btn-sm btn-outline-secondary" onclick="logout()">
+                    <i class="bi bi-box-arrow-right me-1"></i>退出
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <nav class="nav-menu">
+            <a href="#" class="nav-link active" onclick="switchSection('overview')">
+                <i class="bi bi-speedometer2"></i>
+                数据概览
+            </a>
+            <a href="#" class="nav-link" onclick="switchSection('students')">
+                <i class="bi bi-people"></i>
+                学生管理
+            </a>
+            <a href="#" class="nav-link" onclick="switchSection('tasks')">
+                <i class="bi bi-clipboard-check"></i>
+                任务管理
+            </a>
+            <a href="#" class="nav-link" onclick="switchSection('feedback')">
+                <i class="bi bi-chat-square-text"></i>
+                反馈审批
+            </a>
+            <a href="#" class="nav-link" onclick="switchSection('statistics')">
+                <i class="bi bi-bar-chart"></i>
+                数据统计
+            </a>
+        </nav>
+    </aside>
+
+    <!-- 主内容区域 -->
+    <main class="main-content">
+        <!-- 数据概览 -->
+        <section id="overview" class="content-section active">
+            <div class="content-header">
+                <h1 class="page-title">数据概览</h1>
+                <p class="page-subtitle">实时查看班级学习情况</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stats-card">
+                    <div class="stats-icon students">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <div class="stats-number" id="totalStudents">0</div>
+                    <div class="stats-label">学生总数</div>
+                </div>
+                <div class="stats-card">
+                    <div class="stats-icon tasks">
+                        <i class="bi bi-clipboard-check"></i>
+                    </div>
+                    <div class="stats-number" id="totalTasks">0</div>
+                    <div class="stats-label">任务总数</div>
+                </div>
+                <div class="stats-card">
+                    <div class="stats-icon pending">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+                    <div class="stats-number" id="pendingReviews">0</div>
+                    <div class="stats-label">待审批</div>
+                </div>
+                <div class="stats-card">
+                    <div class="stats-icon completed">
+                        <i class="bi bi-check-circle"></i>
+                    </div>
+                    <div class="stats-number" id="completedTasks">0</div>
+                    <div class="stats-label">已完成</div>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <div class="card-header-custom">
+                    <h5 class="card-title">最近活动</h5>
+                </div>
+                <div id="recentActivity">
+                    <div class="text-center text-muted py-5">
+                        <i class="bi bi-clock-history" style="font-size: 3rem;"></i>
+                        <p class="mt-3">暂无最近活动</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 学生管理 -->
+        <section id="students" class="content-section">
+            <div class="content-header">
+                <h1 class="page-title">学生管理</h1>
+                <p class="page-subtitle">管理学生账户信息</p>
+            </div>
+
+            <div class="content-card">
+                <div class="card-header-custom">
+                    <h5 class="card-title">学生列表</h5>
+                    <div>
+                        <button class="btn btn-outline-custom me-2" onclick="showBatchImport()">
+                            <i class="bi bi-upload me-2"></i>批量导入
+                        </button>
+                        <button class="btn btn-primary-custom" onclick="showAddStudent()">
+                            <i class="bi bi-person-plus me-2"></i>添加学生
+                        </button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-custom">
+                        <thead>
+                            <tr>
+                                <th>学号</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>用户名</th>
+                                <th>练习次数</th>
+                                <th>平均分</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentsTable">
+                            <tr>
+                                <td colspan="7" class="text-center text-muted py-5">
+                                    <i class="bi bi-people" style="font-size: 3rem;"></i>
+                                    <p class="mt-3">暂无学生数据</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 任务管理 -->
+        <section id="tasks" class="content-section">
+            <div class="content-header">
+                <h1 class="page-title">任务管理</h1>
+                <p class="page-subtitle">创建和管理口语练习任务</p>
+            </div>
+
+            <div class="content-card">
+                <div class="card-header-custom">
+                    <h5 class="card-title">任务列表</h5>
+                    <button class="btn btn-primary-custom" onclick="showCreateTask()">
+                        <i class="bi bi-plus-circle me-2"></i>创建任务
+                    </button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-custom">
+                        <thead>
+                            <tr>
+                                <th>任务标题</th>
+                                <th>开始时间</th>
+                                <th>截止时间</th>
+                                <th>状态</th>
+                                <th>提交率</th>
+                                <th>平均分</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tasksTable">
+                            <tr>
+                                <td colspan="7" class="text-center text-muted py-5">
+                                    <i class="bi bi-clipboard-check" style="font-size: 3rem;"></i>
+                                    <p class="mt-3">暂无任务数据</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 反馈审批 -->
+        <section id="feedback" class="content-section">
+            <div class="content-header">
+                <h1 class="page-title">反馈审批</h1>
+                <p class="page-subtitle">审批学生练习提交并添加反馈</p>
+            </div>
+
+            <div class="content-card">
+                <div class="card-header-custom">
+                    <h5 class="card-title">待审批列表</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-custom">
+                        <thead>
+                            <tr>
+                                <th>学生姓名</th>
+                                <th>任务标题</th>
+                                <th>提交时间</th>
+                                <th>音频</th>
+                                <th>AI评分</th>
+                                <th>审批状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="feedbackTable">
+                            <tr>
+                                <td colspan="7" class="text-center text-muted py-5">
+                                    <i class="bi bi-chat-square-text" style="font-size: 3rem;"></i>
+                                    <p class="mt-3">暂无待审批记录</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 数据统计 -->
+        <section id="statistics" class="content-section">
+            <div class="content-header">
+                <h1 class="page-title">数据统计</h1>
+                <p class="page-subtitle">查看详细的学习数据分析</p>
+            </div>
+
+            <div class="content-card">
+                <div class="card-header-custom">
+                    <h5 class="card-title">班级整体分析</h5>
+                </div>
+                <div id="classStatistics">
+                    <div class="text-center text-muted py-5">
+                        <i class="bi bi-bar-chart" style="font-size: 3rem;"></i>
+                        <p class="mt-3">统计数据加载中...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+    <script>
+        const API_BASE = 'http://localhost:3000/api';
+        let currentUser = null;
+
+        // 页面初始化
+        window.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            loadUserData();
+            loadOverviewData();
+        });
+
+        // 检查用户认证
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            
+            if (!token || !user) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            try {
+                currentUser = JSON.parse(user);
+                if (currentUser.role !== 'teacher') {
+                    alert('只有教师可以访问此页面');
+                    window.location.href = '/login.html';
+                    return;
+                }
+            } catch (error) {
+                console.error('解析用户信息失败:', error);
+                logout();
+            }
+        }
+
+        // 加载用户数据
+        function loadUserData() {
+            if (currentUser) {
+                document.getElementById('teacherName').textContent = currentUser.real_name || currentUser.username;
+                document.getElementById('userAvatar').innerHTML = currentUser.real_name ? 
+                    currentUser.real_name.charAt(0).toUpperCase() : 'T';
+            }
+        }
+
+        // 切换内容区域
+        function switchSection(sectionId) {
+            // 隐藏所有内容区域
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // 显示目标区域
+            document.getElementById(sectionId).classList.add('active');
+            
+            // 更新导航状态
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // 根据不同区域加载数据
+            switch(sectionId) {
+                case 'students':
+                    loadStudents();
+                    break;
+                case 'tasks':
+                    loadTasks();
+                    break;
+                case 'feedback':
+                    loadFeedback();
+                    break;
+                case 'statistics':
+                    loadStatistics();
+                    break;
+                case 'overview':
+                    loadOverviewData();
+                    break;
+            }
+        }
+
+        // 加载概览数据
+        async function loadOverviewData() {
+            try {
+                const studentsResponse = await apiRequest('/users/all');
+                const students = studentsResponse.filter(u => u.role === 'student');
+                
+                document.getElementById('totalStudents').textContent = students.length;
+                
+                // 这里可以加载更多统计数据
+                // TODO: 实现任务数量、待审批数量等的API
+                
+            } catch (error) {
+                console.error('加载概览数据失败:', error);
+            }
+        }
+
+        // 加载学生数据
+        async function loadStudents() {
+            try {
+                const students = await apiRequest('/users/all');
+                const studentList = students.filter(u => u.role === 'student');
+                
+                const tbody = document.getElementById('studentsTable');
+                if (studentList.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="7" class="text-center text-muted py-5">
+                                <i class="bi bi-people" style="font-size: 3rem;"></i>
+                                <p class="mt-3">暂无学生数据</p>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                tbody.innerHTML = studentList.map(student => `
+                    <tr>
+                        <td>${student.student_id || '-'}</td>
+                        <td>${student.real_name || '-'}</td>
+                        <td>${student.class_name || '-'}</td>
+                        <td>${student.username}</td>
+                        <td>0</td>
+                        <td>-</td>
+                        <td>
+                            <button class="action-btn edit" onclick="editStudent('${student.id}')">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteStudent('${student.id}', '${student.real_name}')">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+                
+            } catch (error) {
+                console.error('加载学生数据失败:', error);
+            }
+        }
+
+        // API请求封装
+        async function apiRequest(url, options = {}) {
+            const defaultOptions = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            };
+
+            const finalOptions = {
+                ...defaultOptions,
+                ...options,
+                headers: {
+                    ...defaultOptions.headers,
+                    ...options.headers
+                }
+            };
+
+            const response = await fetch(API_BASE + url, finalOptions);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            return await response.json();
+        }
+
+        // 退出登录
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/login.html';
+        }
+
+        // 功能实现函数
+        function showAddStudent() {
+            window.location.href = '/user-management.html';
+        }
+
+        function showBatchImport() {
+            window.location.href = '/user-management.html';
+        }
+
+        function showCreateTask() {
+            // 创建任务模态框
+            const modalHtml = `
+                <div class="modal fade" id="createTaskModal" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">创建练习任务</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="createTaskForm">
+                                    <div class="mb-3">
+                                        <label class="form-label">任务标题 *</label>
+                                        <input type="text" class="form-control" id="taskTitle" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">任务内容 *</label>
+                                        <textarea class="form-control" id="taskContent" rows="4" required></textarea>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">难度等级</label>
+                                            <select class="form-select" id="taskDifficulty">
+                                                <option value="1">初级</option>
+                                                <option value="2">中级</option>
+                                                <option value="3">高级</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">开始时间</label>
+                                            <input type="datetime-local" class="form-control" id="taskStartTime">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">截止时间</label>
+                                            <input type="datetime-local" class="form-control" id="taskEndTime">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                                <button type="button" class="btn btn-primary" onclick="saveTask()">保存</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // 移除现有模态框
+            const existingModal = document.getElementById('createTaskModal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
+            // 添加新模态框
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+            
+            // 显示模态框
+            const modal = new bootstrap.Modal(document.getElementById('createTaskModal'));
+            modal.show();
+        }
+
+        async function saveTask() {
+            try {
+                const taskData = {
+                    title: document.getElementById('taskTitle').value,
+                    content: document.getElementById('taskContent').value,
+                    difficulty_level: parseInt(document.getElementById('taskDifficulty').value),
+                    start_time: document.getElementById('taskStartTime').value || null,
+                    end_time: document.getElementById('taskEndTime').value || null
+                };
+
+                await apiRequest('/tasks', {
+                    method: 'POST',
+                    body: JSON.stringify(taskData)
+                });
+
+                alert('任务创建成功！');
+                bootstrap.Modal.getInstance(document.getElementById('createTaskModal')).hide();
+                loadTasks();
+
+            } catch (error) {
+                console.error('创建任务失败:', error);
+                alert('创建任务失败：' + error.message);
+            }
+        }
+
+        function viewTask(taskId) {
+            alert('查看任务详情功能正在开发中...');
+        }
+
+        function editTask(taskId) {
+            alert('编辑任务功能正在开发中...');
+        }
+
+        async function deleteTask(taskId, taskTitle) {
+            if (confirm(`确定要删除任务 "${taskTitle}" 吗？此操作不可撤销。`)) {
+                try {
+                    await apiRequest(`/tasks/${taskId}`, { method: 'DELETE' });
+                    alert('任务删除成功！');
+                    loadTasks();
+                } catch (error) {
+                    console.error('删除任务失败:', error);
+                    alert('删除任务失败：' + error.message);
+                }
+            }
+        }
+
+        function editStudent(id) {
+            window.location.href = '/user-management.html';
+        }
+
+        function deleteStudent(id, name) {
+            window.location.href = '/user-management.html';
+        }
+
+        function reviewSubmission(submissionId) {
+            // 审批模态框
+            const modalHtml = `
+                <div class="modal fade" id="reviewModal" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">审批练习提交</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="reviewForm">
+                                    <div class="mb-3">
+                                        <label class="form-label">教师反馈</label>
+                                        <textarea class="form-control" id="teacherFeedback" rows="4" 
+                                                placeholder="请输入教师反馈..."></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">反馈可见类型</label>
+                                        <select class="form-select" id="feedbackType">
+                                            <option value="ai_only">仅AI反馈</option>
+                                            <option value="teacher_only">仅教师反馈</option>
+                                            <option value="ai_teacher">AI+教师反馈</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                                <button type="button" class="btn btn-danger" onclick="rejectSubmission(${submissionId})">
+                                    退回重做
+                                </button>
+                                <button type="button" class="btn btn-success" onclick="approveSubmission(${submissionId})">
+                                    通过审批
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // 移除现有模态框
+            const existingModal = document.getElementById('reviewModal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
+            // 添加新模态框
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+            
+            // 显示模态框
+            const modal = new bootstrap.Modal(document.getElementById('reviewModal'));
+            modal.show();
+        }
+
+        async function approveSubmission(submissionId) {
+            try {
+                const reviewData = {
+                    status: 'approved',
+                    teacher_feedback: document.getElementById('teacherFeedback').value,
+                    feedback_type: document.getElementById('feedbackType').value
+                };
+
+                await apiRequest(`/submissions/${submissionId}/review`, {
+                    method: 'POST',
+                    body: JSON.stringify(reviewData)
+                });
+
+                alert('审批通过！');
+                bootstrap.Modal.getInstance(document.getElementById('reviewModal')).hide();
+                loadFeedback();
+
+            } catch (error) {
+                console.error('审批失败:', error);
+                alert('审批失败：' + error.message);
+            }
+        }
+
+        async function rejectSubmission(submissionId) {
+            try {
+                const reviewData = {
+                    status: 'rejected',
+                    teacher_feedback: document.getElementById('teacherFeedback').value,
+                    feedback_type: document.getElementById('feedbackType').value
+                };
+
+                await apiRequest(`/submissions/${submissionId}/review`, {
+                    method: 'POST',
+                    body: JSON.stringify(reviewData)
+                });
+
+                alert('已退回重做！');
+                bootstrap.Modal.getInstance(document.getElementById('reviewModal')).hide();
+                loadFeedback();
+
+            } catch (error) {
+                console.error('退回失败:', error);
+                alert('退回失败：' + error.message);
+            }
+        }
+
+        function playAudio(audioPath) {
+            alert('播放音频功能正在开发中...');
+        }
+
+        function loadTasks() {
+            console.log('加载任务数据...');
+        }
+
+        function loadFeedback() {
+            console.log('加载反馈数据...');
+        }
+
+        async function loadStatistics() {
+            try {
+                // TODO: 实现获取统计数据的API
+                // const statistics = await apiRequest('/statistics');
+                
+                // 模拟统计数据
+                const mockStatistics = {
+                    classPerformance: {
+                        averageScore: 75.5,
+                        totalExercises: 156,
+                        completionRate: 85.2,
+                        activeStudents: 45
+                    },
+                    scoreDistribution: [
+                        { range: '0-60', count: 5 },
+                        { range: '60-70', count: 12 },
+                        { range: '70-80', count: 18 },
+                        { range: '80-90', count: 15 },
+                        { range: '90-100', count: 8 }
+                    ],
+                    monthlyProgress: [
+                        { month: '1月', exercises: 120, avgScore: 72 },
+                        { month: '2月', exercises: 135, avgScore: 75 },
+                        { month: '3月', exercises: 142, avgScore: 78 },
+                        { month: '4月', exercises: 156, avgScore: 75.5 }
+                    ]
+                };
+
+                displayStatistics(mockStatistics);
+
+            } catch (error) {
+                console.error('加载统计数据失败:', error);
+                document.getElementById('classStatistics').innerHTML = `
+                    <div class="text-center text-muted py-5">
+                        <i class="bi bi-bar-chart" style="font-size: 3rem;"></i>
+                        <p class="mt-3">加载统计数据失败</p>
+                    </div>
+                `;
+            }
+        }
+
+        function displayStatistics(data) {
+            const statisticsHtml = `
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <div class="stats-number" style="color: var(--primary-color); font-size: 2rem;">${data.classPerformance.averageScore}</div>
+                            <div class="text-muted">班级平均分</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <div class="stats-number" style="color: var(--success-color); font-size: 2rem;">${data.classPerformance.totalExercises}</div>
+                            <div class="text-muted">总练习次数</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <div class="stats-number" style="color: var(--info-color); font-size: 2rem;">${data.classPerformance.completionRate}%</div>
+                            <div class="text-muted">完成率</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <div class="stats-number" style="color: var(--warning-color); font-size: 2rem;">${data.classPerformance.activeStudents}</div>
+                            <div class="text-muted">活跃学生</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="mb-3">分数分布</h6>
+                        <canvas id="scoreDistributionChart" width="400" height="300"></canvas>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="mb-3">月度进度趋势</h6>
+                        <canvas id="progressChart" width="400" height="300"></canvas>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('classStatistics').innerHTML = statisticsHtml;
+            
+            // 绘制图表（使用简单的CSS代替Chart.js）
+            drawScoreDistribution(data.scoreDistribution);
+            drawProgressChart(data.monthlyProgress);
+        }
+
+        function drawScoreDistribution(data) {
+            const container = document.getElementById('scoreDistributionChart');
+            if (!container) return;
+            
+            let maxCount = Math.max(...data.map(item => item.count));
+            let html = '<div class="score-bars">';
+            
+            data.forEach(item => {
+                let height = (item.count / maxCount) * 200;
+                html += `
+                    <div style="display: inline-block; margin: 0 10px; text-align: center;">
+                        <div style="width: 40px; height: ${height}px; background: var(--primary-gradient); border-radius: 4px; margin-bottom: 5px;"></div>
+                        <div style="font-size: 12px; color: #666;">${item.range}</div>
+                        <div style="font-size: 14px; font-weight: bold;">${item.count}</div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        function drawProgressChart(data) {
+            const container = document.getElementById('progressChart');
+            if (!container) return;
+            
+            let html = '<div class="progress-chart">';
+            
+            data.forEach((item, index) => {
+                const exercisesHeight = (item.exercises / 200) * 150;
+                const scoreHeight = (item.avgScore / 100) * 150;
+                
+                html += `
+                    <div style="display: inline-block; margin: 0 15px; text-align: center; min-width: 60px;">
+                        <div style="position: relative; height: 180px;">
+                            <div style="position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%); width: 30px; height: ${exercisesHeight}px; background: var(--primary-color); border-radius: 4px; opacity: 0.7;"></div>
+                            <div style="position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%); width: 30px; height: ${scoreHeight}px; background: var(--success-color); border-radius: 4px;"></div>
+                        </div>
+                        <div style="font-size: 12px; color: #666; margin-top: 10px;">${item.month}</div>
+                        <div style="font-size: 10px; margin-top: 5px;">
+                            <div style="color: var(--primary-color);">练习: ${item.exercises}</div>
+                            <div style="color: var(--success-color);">平均: ${item.avgScore}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            html += '<div class="mt-3"><small><span style="color: var(--primary-color);">■ 练习次数</span> <span style="color: var(--success-color);">■ 平均分数</span></small></div>';
+            
+            container.innerHTML = html;
+        }
+
+        // 辅助函数
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('zh-CN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+    </script>
+</body>
+</html>

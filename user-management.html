@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户管理 - 英语口语练习系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #13B497 0%, #00D9FF 100%);
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #13B497;
+            --warning-color: #ffc107;
+            --danger-color: #f5576c;
+            --info-color: #00D9FF;
+            --light-color: #f8f9ff;
+            --dark-color: #2d3748;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        body {
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            font-family: 'Inter', 'Microsoft YaHei', sans-serif;
+            color: var(--dark-color);
+        }
+
+        .main-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin: 30px auto;
+            max-width: 1400px;
+        }
+
+        .header-section {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .content-section {
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,249,255,0.95) 100%);
+        }
+
+        .user-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--primary-gradient);
+        }
+
+        .user-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .role-student {
+            background: var(--success-gradient);
+            color: white;
+        }
+
+        .role-teacher {
+            background: var(--secondary-gradient);
+            color: white;
+        }
+
+        .btn-action {
+            padding: 8px 16px;
+            border-radius: 12px;
+            border: none;
+            font-size: 14px;
+            margin: 0 5px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .btn-edit {
+            background: var(--info-color);
+            color: white;
+        }
+
+        .btn-delete {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .btn-add {
+            background: var(--success-gradient);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 16px;
+            border: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(19, 180, 151, 0.4);
+        }
+
+        .search-box {
+            background: white;
+            border-radius: 20px;
+            padding: 20px 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .form-control-custom {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 15px 20px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-control-custom:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .modal-content-custom {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+        }
+
+        .modal-header-custom {
+            background: var(--primary-gradient);
+            color: white;
+            border-radius: 24px 24px 0 0;
+            padding: 30px;
+        }
+
+        .modal-body-custom {
+            padding: 30px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stats-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .loader {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--glass-border);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            background: white;
+            padding: 8px;
+            border-radius: 20px;
+        }
+
+        .filter-tab {
+            flex: 1;
+            padding: 15px 25px;
+            text-align: center;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 16px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .filter-tab.active {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 30px;
+            color: var(--secondary-color);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- 页面头部 -->
+        <header class="header-section">
+            <h1 class="display-6 mb-3">
+                <i class="bi bi-people-fill me-3"></i>用户管理系统
+            </h1>
+            <p class="mb-0">管理学生和教师账号信息</p>
+        </header>
+
+        <!-- 内容区域 -->
+        <section class="content-section">
+            <!-- 统计信息 -->
+            <div class="stats-grid">
+                <div class="stats-card">
+                    <div class="stats-number" id="totalUsers">0</div>
+                    <div class="stats-label">总用户数</div>
+                </div>
+                <div class="stats-card">
+                    <div class="stats-number" id="totalStudents">0</div>
+                    <div class="stats-label">学生人数</div>
+                </div>
+                <div class="stats-card">
+                    <div class="stats-number" id="totalTeachers">0</div>
+                    <div class="stats-label">教师人数</div>
+                </div>
+                <div class="stats-card">
+                    <div class="stats-number" id="activeUsers">0</div>
+                    <div class="stats-label">活跃用户</div>
+                </div>
+            </div>
+
+            <!-- 搜索和筛选 -->
+            <div class="search-box">
+                <div class="row align-items-center">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="bi bi-search"></i>
+                            </span>
+                            <input type="text" class="form-control-custom border-start-0" id="searchInput" 
+                                   placeholder="搜索用户名、姓名或学号...">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="filter-tabs">
+                            <button class="filter-tab active" onclick="filterUsers('all')">
+                                <i class="bi bi-people me-2"></i>全部
+                            </button>
+                            <button class="filter-tab" onclick="filterUsers('student')">
+                                <i class="bi bi-mortarboard me-2"></i>学生
+                            </button>
+                            <button class="filter-tab" onclick="filterUsers('teacher')">
+                                <i class="bi bi-person-badge me-2"></i>教师
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-2 text-end">
+                        <div class="btn-group">
+                            <button class="btn-add" onclick="showAddUserModal()">
+                                <i class="bi bi-person-plus me-2"></i>添加用户
+                            </button>
+                            <button class="btn-add" onclick="showBatchImportModal()" style="background: var(--secondary-gradient);">
+                                <i class="bi bi-upload me-2"></i>批量导入
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 用户列表 -->
+            <div id="usersList">
+                <div class="text-center py-5">
+                    <div class="loader"></div>
+                    <p class="text-muted mt-3">正在加载用户列表...</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 添加/编辑用户模态框 -->
+    <div class="modal fade" id="userModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content modal-content-custom">
+                <div class="modal-header modal-header-custom">
+                    <h5 class="modal-title" id="userModalTitle">
+                        <i class="bi bi-person-plus me-2"></i>添加新用户
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body modal-body-custom">
+                    <form id="userForm">
+                        <input type="hidden" id="userId">
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">用户角色 *</label>
+                                    <select class="form-control-custom" id="userRole" required>
+                                        <option value="">请选择角色</option>
+                                        <option value="student">学生</option>
+                                        <option value="teacher">教师</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">用户名 *</label>
+                                    <input type="text" class="form-control-custom" id="userName" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">密码 *</label>
+                                    <input type="password" class="form-control-custom" id="userPassword" required>
+                                    <small class="text-muted">编辑时留空则不修改密码</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">确认密码</label>
+                                    <input type="password" class="form-control-custom" id="confirmPassword">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">真实姓名 *</label>
+                                    <input type="text" class="form-control-custom" id="realName" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">邮箱</label>
+                                    <input type="email" class="form-control-custom" id="userEmail">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" id="studentFields">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">学号</label>
+                                    <input type="text" class="form-control-custom" id="studentId">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">班级</label>
+                                    <input type="text" class="form-control-custom" id="className">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="saveUser()">
+                        <i class="bi bi-check-circle me-2"></i>保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 删除确认模态框 -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content modal-content-custom">
+                <div class="modal-header modal-header-custom">
+                    <h5 class="modal-title">
+                        <i class="bi bi-exclamation-triangle me-2"></i>确认删除
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body modal-body-custom">
+                    <p>确定要删除用户 "<span id="deleteUserName"></span>" 吗？</p>
+                    <p class="text-danger mb-0">
+                        <i class="bi bi-info-circle me-2"></i>
+                        此操作不可撤销，相关的练习记录也将被删除。
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger" onclick="confirmDelete()">
+                        <i class="bi bi-trash me-2"></i>确认删除
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 批量导入模态框 -->
+    <div class="modal fade" id="batchImportModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content modal-content-custom">
+                <div class="modal-header modal-header-custom">
+                    <h5 class="modal-title">
+                        <i class="bi bi-upload me-2"></i>批量导入学生
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body modal-body-custom">
+                    <div class="mb-3">
+                        <label for="importData" class="form-label">导入数据 (JSON格式)</label>
+                        <textarea class="form-control" id="importData" rows="10" placeholder='[
+  {
+    "username": "student001",
+    "password": "123456",
+    "real_name": "张三",
+    "student_id": "2021001",
+    "class_name": "一班",
+    "email": "student001@example.com"
+  },
+  {
+    "username": "student002",
+    "password": "123456", 
+    "real_name": "李四",
+    "student_id": "2021002",
+    "class_name": "一班"
+  }
+]'></textarea>
+                        <small class="text-muted">
+                            <i class="bi bi-info-circle me-1"></i>
+                            请输入JSON格式的学生数据，必填字段：username、password、real_name
+                        </small>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <button class="btn btn-outline-primary" onclick="loadExampleData()">
+                            <i class="bi bi-file-text me-2"></i>加载示例数据
+                        </button>
+                        <button class="btn btn-outline-secondary ms-2" onclick="validateImportData()">
+                            <i class="bi bi-check-circle me-2"></i>验证数据
+                        </button>
+                    </div>
+
+                    <div id="importPreview" style="display: none;">
+                        <h6>数据预览：</h6>
+                        <div id="previewContent" class="border rounded p-3 bg-light"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="batchImportUsers()">
+                        <i class="bi bi-upload me-2"></i>开始导入
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let allUsers = [];
+        let filteredUsers = [];
+        let currentFilter = 'all';
+        let userToDelete = null;
+
+        // 页面初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUsers();
+            setupSearchListener();
+        });
+
+        // 设置搜索监听器
+        function setupSearchListener() {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                filterAndDisplayUsers(searchTerm);
+            });
+        }
+
+        // 加载用户列表
+        async function loadUsers() {
+            try {
+                const users = await apiRequest(`${API_BASE}/users/all`);
+                if (users) {
+                    allUsers = users;
+                    filteredUsers = users;
+                    updateStats();
+                    displayUsers();
+                }
+            } catch (error) {
+                console.error('加载用户失败:', error);
+                showUsersError();
+            }
+        }
+
+        // 筛选用户
+        function filterUsers(role) {
+            currentFilter = role;
+            
+            // 更新标签状态
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // 筛选用户
+            if (role === 'all') {
+                filteredUsers = allUsers;
+            } else {
+                filteredUsers = allUsers.filter(user => user.role === role);
+            }
+            
+            // 应用搜索
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            filterAndDisplayUsers(searchTerm);
+        }
+
+        // 搜索和显示用户
+        function filterAndDisplayUsers(searchTerm) {
+            const searchResults = filteredUsers.filter(user => 
+                user.username.toLowerCase().includes(searchTerm) ||
+                (user.real_name && user.real_name.toLowerCase().includes(searchTerm)) ||
+                (user.student_id && user.student_id.toLowerCase().includes(searchTerm))
+            );
+            displayUsers(searchResults);
+        }
+
+        // 显示用户列表
+        function displayUsers(usersToShow = filteredUsers) {
+            const container = document.getElementById('usersList');
+            
+            if (usersToShow.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="bi bi-people"></i>
+                        <h4>暂无用户数据</h4>
+                        <p>点击"添加用户"按钮创建第一个用户</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = usersToShow.map(user => `
+                <div class="user-card">
+                    <div class="row align-items-center">
+                        <div class="col-md-1">
+                            <div class="user-avatar">
+                                <i class="bi bi-${user.role === 'teacher' ? 'person-badge' : 'mortarboard'}"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <h6 class="mb-1">${user.real_name || '未设置'}</h6>
+                            <small class="text-muted">@${user.username}</small>
+                            <br>
+                            <span class="role-badge role-${user.role}">
+                                ${user.role === 'teacher' ? '教师' : '学生'}
+                            </span>
+                        </div>
+                        <div class="col-md-3">
+                            ${user.student_id ? `<small><strong>学号：</strong>${user.student_id}</small><br>` : ''}
+                            ${user.class_name ? `<small><strong>班级：</strong>${user.class_name}</small><br>` : ''}
+                            ${user.email ? `<small><strong>邮箱：</strong>${user.email}</small>` : ''}
+                            <small><strong>注册时间：</strong>${formatDate(user.created_at)}</small>
+                        </div>
+                        <div class="col-md-3">
+                            <small><strong>最后登录：</strong>${user.last_login ? formatDateTime(user.last_login) : '从未登录'}</small>
+                            <br>
+                            <small><strong>练习次数：</strong>${user.exercise_count || 0}</small>
+                        </div>
+                        <div class="col-md-2 text-end">
+                            <button class="btn-action btn-edit" onclick="editUser(${user.id})">
+                                <i class="bi bi-pencil"></i> 编辑
+                            </button>
+                            <button class="btn-action btn-delete" onclick="deleteUser(${user.id}, '${user.real_name || user.username}')">
+                                <i class="bi bi-trash"></i> 删除
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 更新统计信息
+        function updateStats() {
+            const totalUsers = allUsers.length;
+            const totalStudents = allUsers.filter(u => u.role === 'student').length;
+            const totalTeachers = allUsers.filter(u => u.role === 'teacher').length;
+            const activeUsers = allUsers.filter(u => u.last_login).length;
+
+            document.getElementById('totalUsers').textContent = totalUsers;
+            document.getElementById('totalStudents').textContent = totalStudents;
+            document.getElementById('totalTeachers').textContent = totalTeachers;
+            document.getElementById('activeUsers').textContent = activeUsers;
+        }
+
+        // 显示添加用户模态框
+        function showAddUserModal() {
+            document.getElementById('userModalTitle').innerHTML = '<i class="bi bi-person-plus me-2"></i>添加新用户';
+            document.getElementById('userForm').reset();
+            document.getElementById('userId').value = '';
+            document.getElementById('userPassword').required = true;
+            showStudentFields(false);
+            
+            const modal = new bootstrap.Modal(document.getElementById('userModal'));
+            modal.show();
+        }
+
+        // 编辑用户
+        function editUser(userId) {
+            const user = allUsers.find(u => u.id === userId);
+            if (!user) return;
+
+            document.getElementById('userModalTitle').innerHTML = '<i class="bi bi-pencil me-2"></i>编辑用户';
+            
+            // 填充表单
+            document.getElementById('userId').value = user.id;
+            document.getElementById('userRole').value = user.role;
+            document.getElementById('userName').value = user.username;
+            document.getElementById('userPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+            document.getElementById('realName').value = user.real_name || '';
+            document.getElementById('userEmail').value = user.email || '';
+            document.getElementById('studentId').value = user.student_id || '';
+            document.getElementById('className').value = user.class_name || '';
+            
+            // 编辑时密码不是必填
+            document.getElementById('userPassword').required = false;
+            
+            showStudentFields(user.role === 'student');
+            
+            const modal = new bootstrap.Modal(document.getElementById('userModal'));
+            modal.show();
+        }
+
+        // 显示/隐藏学生字段
+        function showStudentFields(show) {
+            const studentFields = document.getElementById('studentFields');
+            studentFields.style.display = show ? 'block' : 'none';
+        }
+
+        // 监听角色变化
+        document.getElementById('userRole').addEventListener('change', function() {
+            showStudentFields(this.value === 'student');
+        });
+
+        // 保存用户
+        async function saveUser() {
+            const userId = document.getElementById('userId').value;
+            const formData = {
+                username: document.getElementById('userName').value,
+                password: document.getElementById('userPassword').value,
+                email: document.getElementById('userEmail').value,
+                role: document.getElementById('userRole').value,
+                real_name: document.getElementById('realName').value,
+                student_id: document.getElementById('studentId').value,
+                class_name: document.getElementById('className').value
+            };
+
+            // 验证
+            if (!formData.username || !formData.role || !formData.real_name) {
+                alert('请填写必填字段');
+                return;
+            }
+
+            // 验证密码（新建时必填，编辑时可选）
+            if (!userId && !formData.password) {
+                alert('请输入密码');
+                return;
+            }
+
+            if (formData.password && formData.password !== document.getElementById('confirmPassword').value) {
+                alert('两次输入的密码不一致');
+                return;
+            }
+
+            try {
+                const url = userId ? `${API_BASE}/users/${userId}` : `${API_BASE}/users`;
+                const method = userId ? 'PUT' : 'POST';
+                
+                const response = await apiRequest(url, {
+                    method,
+                    body: JSON.stringify(formData)
+                });
+
+                if (response) {
+                    alert(userId ? '用户更新成功！' : '用户创建成功！');
+                    bootstrap.Modal.getInstance(document.getElementById('userModal')).hide();
+                    loadUsers();
+                }
+            } catch (error) {
+                console.error('保存用户失败:', error);
+                alert('操作失败：' + error.message);
+            }
+        }
+
+        // 删除用户
+        function deleteUser(userId, userName) {
+            userToDelete = userId;
+            document.getElementById('deleteUserName').textContent = userName;
+            
+            const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            modal.show();
+        }
+
+        // 确认删除
+        async function confirmDelete() {
+            if (!userToDelete) return;
+
+            try {
+                const response = await apiRequest(`${API_BASE}/users/${userToDelete}`, {
+                    method: 'DELETE'
+                });
+
+                if (response) {
+                    alert('用户删除成功！');
+                    bootstrap.Modal.getInstance(document.getElementById('deleteModal')).hide();
+                    loadUsers();
+                }
+            } catch (error) {
+                console.error('删除用户失败:', error);
+                alert('删除失败：' + error.message);
+            }
+        }
+
+        // 显示批量导入模态框
+        function showBatchImportModal() {
+            document.getElementById('importData').value = '';
+            document.getElementById('importPreview').style.display = 'none';
+            const modal = new bootstrap.Modal(document.getElementById('batchImportModal'));
+            modal.show();
+        }
+
+        // 加载示例数据
+        function loadExampleData() {
+            const exampleData = [
+                {
+                    username: "student001",
+                    password: "123456",
+                    real_name: "张三",
+                    student_id: "2021001",
+                    class_name: "一班",
+                    email: "student001@example.com"
+                },
+                {
+                    username: "student002",
+                    password: "123456", 
+                    real_name: "李四",
+                    student_id: "2021002",
+                    class_name: "一班"
+                },
+                {
+                    username: "student003",
+                    password: "123456",
+                    real_name: "王五",
+                    student_id: "2021003",
+                    class_name: "二班"
+                }
+            ];
+            
+            document.getElementById('importData').value = JSON.stringify(exampleData, null, 2);
+            validateImportData();
+        }
+
+        // 验证导入数据
+        function validateImportData() {
+            const importData = document.getElementById('importData').value.trim();
+            const previewDiv = document.getElementById('importPreview');
+            const previewContent = document.getElementById('previewContent');
+            
+            if (!importData) {
+                previewDiv.style.display = 'none';
+                return;
+            }
+            
+            try {
+                const students = JSON.parse(importData);
+                
+                if (!Array.isArray(students)) {
+                    throw new Error('数据必须是数组格式');
+                }
+                
+                let preview = `<p><strong>共 ${students.length} 条学生数据</strong></p>`;
+                let hasError = false;
+                
+                students.forEach((student, index) => {
+                    const errors = [];
+                    
+                    if (!student.username) errors.push('用户名缺失');
+                    if (!student.password) errors.push('密码缺失');
+                    if (!student.real_name) errors.push('真实姓名缺失');
+                    
+                    if (errors.length > 0) {
+                        hasError = true;
+                        preview += `<div class="alert alert-danger py-2 mb-2">
+                            <strong>第 ${index + 1} 条：</strong> ${errors.join(', ')}
+                        </div>`;
+                    } else {
+                        preview += `<div class="py-2 mb-2 border-bottom">
+                            <strong>第 ${index + 1} 条：</strong> ${student.real_name} (${student.username})
+                            ${student.student_id ? ` - 学号: ${student.student_id}` : ''}
+                            ${student.class_name ? ` - 班级: ${student.class_name}` : ''}
+                        </div>`;
+                    }
+                });
+                
+                previewContent.innerHTML = preview;
+                previewDiv.style.display = 'block';
+                
+                return !hasError;
+                
+            } catch (error) {
+                previewContent.innerHTML = `<div class="alert alert-danger">
+                    <strong>JSON格式错误：</strong> ${error.message}
+                </div>`;
+                previewDiv.style.display = 'block';
+                return false;
+            }
+        }
+
+        // 批量导入用户
+        async function batchImportUsers() {
+            const importData = document.getElementById('importData').value.trim();
+            
+            if (!importData) {
+                alert('请输入导入数据');
+                return;
+            }
+            
+            const isValid = validateImportData();
+            if (!isValid) {
+                alert('数据验证失败，请检查格式和必填字段');
+                return;
+            }
+            
+            try {
+                const students = JSON.parse(importData);
+                
+                const response = await apiRequest(`${API_BASE}/users/batch-import`, {
+                    method: 'POST',
+                    body: JSON.stringify({ students })
+                });
+                
+                if (response) {
+                    alert(`导入完成！
+成功：${response.results.success.length} 条
+失败：${response.results.failed.length} 条`);
+                    
+                    if (response.results.failed.length > 0) {
+                        console.log('导入失败详情:', response.results.failed);
+                    }
+                    
+                    bootstrap.Modal.getInstance(document.getElementById('batchImportModal')).hide();
+                    loadUsers();
+                }
+                
+            } catch (error) {
+                console.error('批量导入失败:', error);
+                alert('导入失败：' + error.message);
+            }
+        }
+
+        // 显示错误状态
+        function showUsersError() {
+            const container = document.getElementById('usersList');
+            container.innerHTML = `
+                <div class="empty-state">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    <h4>加载失败</h4>
+                    <p>无法加载用户列表，请检查网络连接</p>
+                </div>
+            `;
+        }
+
+        // API请求封装
+        async function apiRequest(url, options = {}) {
+            const defaultOptions = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            };
+
+            const finalOptions = {
+                ...defaultOptions,
+                ...options,
+                headers: {
+                    ...defaultOptions.headers,
+                    ...options.headers
+                }
+            };
+
+            try {
+                const response = await fetch(url, finalOptions);
+                
+                if (response.status === 401) {
+                    window.location.href = '/';
+                    return null;
+                }
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || '请求失败');
+                }
+
+                return await response.json();
+            } catch (error) {
+                console.error('API请求失败:', error);
+                throw error;
+            }
+        }
+
+        // 工具函数
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('zh-CN');
+        }
+
+        function formatDateTime(dateString) {
+            if (!dateString) return '-';
+            const date = new Date(dateString);
+            return date.toLocaleString('zh-CN');
+        }
+    </script>
+</body>
+</html>
