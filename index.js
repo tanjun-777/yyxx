@@ -1,4 +1,26 @@
-const { dbOperations, initDatabase } = require('../database-supabase');
+const { Pool } = require('pg');
+
+// Supabase 数据库连接
+const pool = new Pool({
+  connectionString: process.env.SUPABASE_DATABASE_URL || process.env.POSTGRES_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
+
+// 数据库操作函数
+const dbOperations = {
+  async getUserByUsername(username) {
+    const query = 'SELECT * FROM users WHERE username = $1';
+    const result = await pool.query(query, [username]);
+    return result.rows[0];
+  },
+
+  async updateUserLogin(userId) {
+    const query = 'UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = $1';
+    await pool.query(query, [userId]);
+  }
+};
 
 // Vercel Serverless Function handler
 module.exports = async (req, res) => {
@@ -14,37 +36,33 @@ module.exports = async (req, res) => {
 
   try {
     const { url } = req;
-    const parsedUrl = new URL(url, `http://${req.headers.host}`);
-    const path = parsedUrl.pathname;
-    const query = parsedUrl.searchParams;
+    const path = new URL(url, `http://${req.headers.host}`).pathname;
 
     console.log('API 调用:', req.method, path);
 
     // 健康检查
     if (path === '/api/health') {
-      res.json({ status: 'ok', timestamp: new Date().toISOString() });
-      return;
-    }
-
-    // 数据库初始化
-    if (path === '/api/init-db') {
-      if (req.method !== 'POST') {
-        res.status(405).json({ error: 'Method not allowed' });
-        return;
+      // 测试数据库连接
+      try {
+        await pool.query('SELECT 1');
+        res.json({ 
+          status: 'ok', 
+          timestamp: new Date().toISOString(),
+          database: 'connected'
+        });
+      } catch (dbError) {
+        res.json({ 
+          status: 'ok', 
+          timestamp: new Date().toISOString(),
+          database: 'disconnected',
+          error: dbError.message
+        });
       }
-      
-      await initDatabase();
-      res.json({ message: '数据库初始化成功' });
       return;
     }
 
     // 登录处理
-    if (path === '/api/login') {
-      if (req.method !== 'POST') {
-        res.status(405).json({ error: 'Method not allowed' });
-        return;
-      }
-
+    if (path === '/api/login' && req.method === 'POST') {
       const { username, password } = req.body;
       
       if (!username || !password) {
@@ -85,14 +103,18 @@ module.exports = async (req, res) => {
       return;
     }
 
-    // 其他 API 路由的占位符
-    res.status(404).json({ error: 'API endpoint not found' });
+    // 其他路由
+    res.status(404).json({ 
+      error: 'API endpoint not found',
+      available_endpoints: ['/api/health', '/api/login']
+    });
     
   } catch (error) {
     console.error('API 错误:', error);
     res.status(500).json({ 
       error: 'Internal server error',
-      message: error.message 
+      message: error.message,
+      database_url: process.env.SUPABASE_DATABASE_URL ? 'configured' : 'missing'
     });
   }
 };
